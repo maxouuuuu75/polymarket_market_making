@@ -26,8 +26,3 @@ The strategy is a basic market making approach:
 
 ---
 
-## Key Features
-
-### 1. Dynamic Market Selection
-
-The bot generates the correct Polymarket slug using US Eastern Time:
