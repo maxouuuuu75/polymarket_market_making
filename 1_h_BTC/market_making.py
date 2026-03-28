@@ -63,8 +63,6 @@ state = {
     "current_ask_price": None
 }
 
-from datetime import datetime
-from zoneinfo import ZoneInfo  # Python 3.9+
 
 def get_hourly_slug():
     # Heure actuelle en ET
@@ -81,8 +79,6 @@ def get_hourly_slug():
     
     slug = f"bitcoin-up-or-down-{month}-{day}-{hour_12}{am_pm}-et"
     return slug
-
-print(get_hourly_slug())
 
 def clean_old_orders(token_id, bid, ask):
 
