@@ -1,33 +1,61 @@
-# Polymarket Market Making Bot (1H)
-
-## Overview
-
-This project implements a simple market making strategy on Polymarket hourly BTC Up/Down markets.
-
-The bot automatically:
-- Identifies the current hourly market (based on Eastern Time)
-- Streams the live order book
-- Places bid and ask orders
-- Manages inventory
-- Cancels outdated orders
-- Liquidates positions before market resolution
+This ensures it always trades the active hourly market.
 
 ---
 
-## Strategy Logic
+### 2. Orderbook Streaming
 
-The strategy is a basic market making approach:
+The bot continuously fetches:
+- Best bid
+- Best ask
 
-- Place a buy order (bid) at the best bid price  
-- Place a sell order (ask) at the best ask price  
-- Continuously update orders when prices change  
-- Maintain a maximum inventory limit  
-- Exit positions in the last 15 minutes of the market  
+Using Polymarket CLOB API.
 
 ---
 
-## Key Features
+### 3. Order Management
 
-### 1. Dynamic Market Selection
+- Cancels outdated orders if prices move  
+- Keeps only one active bid and one active ask  
+- Prevents stale orders from staying in the book  
 
-The bot generates the correct Polymarket slug using US Eastern Time:
+---
+
+### 4. Inventory Control
+
+- Maximum position: `MAX_SHARES`  
+- Order size: `ORDER_SIZE`  
+- Avoids overexposure  
+
+---
+
+### 5. Risk Management
+
+- Stops trading and closes positions in the last 15 minutes  
+- Cancels all open orders  
+- Sells remaining inventory at market  
+
+---
+
+## Architecture
+
+The bot is structured into two main asynchronous loops:
+
+### `stream_orderbook()`
+- Detects current market
+- Updates prices
+- Maintains global state
+
+### `trading_loop()`
+- Executes trading logic
+- Places/cancels orders
+- Manages risk and inventory
+
+Both run concurrently using `asyncio`.
+
+---
+
+## Requirements
+
+- Python 3.9+
+- Polymarket API access
+- Environment variable:
