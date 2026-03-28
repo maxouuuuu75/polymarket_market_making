@@ -1,6 +1,3 @@
-This ensures it always trades the active hourly market.
-## Key Features
-
 ### 1. Dynamic Market Selection
 
 The bot generates the correct Polymarket slug using US Eastern Time:
